@@ -6,25 +6,35 @@ struct SAttribute
 	int def;
 	int ad;
 	int bj;
+	int bjValue;
 };
 //英雄基类
 class CHero {
 protected:
 	SAttribute mAttribute;
 	int mState;
+	const char* name = 0;
 public:
-	virtual void Init();
-	virtual void Run();
+	virtual	void Run();
 	virtual void Action(CHero* tag);
-	virtual const char* GetName();
 	SAttribute* GetAttribute();
+	const char* GetName();
+	void SetAD(int ad);
+	void SetBJ(int bj);
+	void SetName(const char *);
 	int getState();
 	void setState(int state);
 };
 //英雄技能接口
 class CSkill {
+protected:
+	int qcd;
+	int cqcd;
+	int rcd;
+	int crcd;
 public:
- 	virtual void QSkill(SAttribute* attribute) = 0;
-	virtual void RSkill(SAttribute* attribute) = 0;
-	virtual void NormalAttack(SAttribute* attribute) = 0;
+	void changeCD();
+ 	virtual void QSkill(CHero* enemy) = 0;
+	virtual void RSkill(CHero* enemy) = 0;
+	virtual void NormalAttack(CHero* enemy) = 0;
 };

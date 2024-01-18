@@ -18,5 +18,58 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="defender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hero.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="output.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="supporter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="warrior.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="builder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="defender.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hero.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="output.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="supporter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="warrior.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="builder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
