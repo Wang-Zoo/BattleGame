@@ -17,7 +17,7 @@ int CRandom::getRandomIntRange(int max, int min)
 		max = min ^ max;
 		min = min ^ max;
 	}
-	return rand() % (max - min + 1);
+	return rand() % (max - min + 1)+ min;
 }
 
 

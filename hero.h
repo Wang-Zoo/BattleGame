@@ -2,11 +2,11 @@
 //”¢–€ Ù–‘
 struct SAttribute
 {
-	int hp;
-	int def;
-	int ad;
-	int bj;
-	int bjValue;
+	int hp = 0;
+	int def = 0;
+	int ad = 0;
+	int bj = 0;
+	int bjValue = 0;
 };
 //”¢–€ª˘¿‡
 class CHero {
@@ -21,7 +21,10 @@ public:
 	const char* GetName();
 	void SetAD(int ad);
 	void SetBJ(int bj);
+	void SetHp(int hp);
+	void SetDef(int def);
 	void SetName(const char *);
+	int getHp();
 	int getState();
 	void setState(int state);
 };

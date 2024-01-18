@@ -3,53 +3,65 @@
 #include <iostream>
 #include "random.h"
 
+CWarrior::CWarrior()
+{
+	mAttribute.bjValue = 50;
+}
+
 void CWarrior::Run() {
 	CHero::Run();
 	CSkill::changeCD();
 }
 
-void CWarrior::Action(CHero* tag)
+void CWarrior::Action(CHero* enemy)
 {
+	if (enemy == 0) {
+		return;
+	}
 	if (!cqcd) {
-		QSkill(tag);
+		QSkill(enemy);
 		cqcd = qcd;
-	}else if (!crcd) {
-		RSkill(tag);
+	}
+	else if (!crcd) {
+		RSkill(enemy);
 		crcd = rcd;
-	}else {
-		NormalAttack(tag);
+	}
+	else {
+		NormalAttack(enemy);
 	}
 }
 
 void CWarrior::QSkill(CHero* enemy)
 {
 	int gj = mAttribute.ad;
-	std::cout << name << "å‘åŠ¨äº†QæŠ€èƒ½";
+	std::cout << name << "·¢¶¯¼¼ÄÜ";
 	int tempRandom = CRandom::getInstance().getRandomInt();
-	if (tempRandom % 100 < mAttribute.bj) {//æš´å‡»
-		gj = gj * this->mAttribute.bjValue;
-		std::cout << " æš´å‡»ï¼ï¼";
+	if (tempRandom % 100 < mAttribute.bj) {//±©»÷
+		gj +=( gj * this->mAttribute.bjValue/100);
+		std::cout << "±©»÷£¡£¡";
 	}
 	else {
-		std::cout << " å‡»ä¸­ï¼ï¼";
+		std::cout << "»÷ÖÐ£¡";
 	}
-	std::cout << "å¯¹" << enemy->GetName() << "äº§ç”Ÿäº†" << gj << "ç‚¹ä¼¤å®³";
+	enemy->GetAttribute()->hp -= gj;
+	std::cout << "¶Ô" << enemy->GetName() << "²úÉúÁË" << gj << "µãÉËº¦\n";
 
 }
 
 void CWarrior::RSkill(CHero* enemy)
 {
 	int gj = mAttribute.ad;
-	std::cout << name << "å‘åŠ¨äº†RæŠ€èƒ½";
+	std::cout << name << "·¢¶¯ÁË´óÕÐ¼¼ÄÜ";
 	int tempRandom = CRandom::getInstance().getRandomInt();
-	if (tempRandom % 100 < mAttribute.bj) {//æš´å‡»
-		gj = gj * this->mAttribute.bjValue;
-		std::cout << " æš´å‡»ï¼ï¼";
+	if (tempRandom % 100 < mAttribute.bj) {//±©»÷
+		gj += (gj * this->mAttribute.bjValue/100);
+		std::cout << " ±©»÷£¡£¡";
 	}
 	else {
-		std::cout << " å‡»ä¸­ï¼ï¼";
+		std::cout << " »÷ÖÐ!";
 	}
-	std::cout << "å¯¹" << enemy->GetName() << "äº§ç”Ÿäº†" << gj << "ç‚¹ä¼¤å®³";
+	enemy->GetAttribute()->hp -= gj;
+	std::cout << "¶Ô" << enemy->GetName() << "²úÉúÁË" << gj << "µãÉËº¦\n";
 
 }
 
@@ -57,7 +69,17 @@ void CWarrior::NormalAttack(CHero* enemy)
 {
 	int gj = mAttribute.ad;
 	int tempRandom = CRandom::getInstance().getRandomInt();
-	std::cout << name << "å‘åŠ¨äº†æ™®é€šæ”»å‡»";
-	std::cout << "å¯¹" << enemy->GetName() << "äº§ç”Ÿäº†" << gj << "ç‚¹ä¼¤å®³";
+	std::cout << name << "·¢¶¯ÁËÆÕÍ¨¹¥»÷";
+	std::cout << "¶Ô" << enemy->GetName() << "²úÉúÁË" << gj << "µãÉËº¦\n";
 
+}
+
+void CWarrior::setQcd(int cd)
+{
+	qcd = cd;
+}
+
+void CWarrior::setRcd(int cd)
+{
+	rcd = cd;
 }

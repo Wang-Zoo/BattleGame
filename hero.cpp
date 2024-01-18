@@ -30,9 +30,24 @@ void CHero::SetBJ(int bj)
 	this->mAttribute.bj = bj;
 }
 
+void CHero::SetHp(int hp)
+{
+	this->mAttribute.hp = hp;
+}
+
+void CHero::SetDef(int def)
+{
+	this->mAttribute.def = def;
+}
+
 void CHero::SetName(const char* name)
 {
 	this->name = name;
+}
+
+int CHero::getHp()
+{
+	return mAttribute.hp;
 }
 
 int CHero::getState()
