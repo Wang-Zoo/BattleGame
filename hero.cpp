@@ -25,6 +25,11 @@ void CHero::SetAD(int ad)
 	this->mAttribute.ad = ad;
 }
 
+void CHero::SetAP(int ap)
+{
+	this->mAttribute.ap = ap;
+}
+
 void CHero::SetBJ(int bj)
 {
 	this->mAttribute.bj = bj;

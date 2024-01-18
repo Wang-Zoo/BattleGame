@@ -1,30 +1,54 @@
 #include "supporter.h"
-
-void CSupporter::Init()
-{
-}
-
+#include <iostream>
+#include "random.h"
 void CSupporter::Run()
 {
+	CHero::Run();
+	CSkill::changeCD();
 }
 
-void CSupporter::Action(CHero* tag)
+void CSupporter::Action(CHero* enemy)
+{
+	if (enemy == 0) {
+		return;
+	}
+	if (!cqcd) {
+		QSkill(enemy);
+		cqcd = qcd;
+	}
+	else if (!crcd) {
+		RSkill(enemy);
+		crcd = rcd;
+	}
+	else {
+		NormalAttack(enemy);
+	}
+}
+
+void CSupporter::QSkill(CHero* ally)
+{
+	std::cout << name <<"开启了加血功能 ";
+	int random = CRandom::getInstance().getRandomIntRange(1, 10);
+	float targetData = mAttribute.ap;
+	targetData += (targetData * random / 10);
+	ally->GetAttribute()->hp += targetData;
+	std::cout << "给队友"<<ally->GetName()<<"加了" << targetData << "点血量\n";
+}
+
+void CSupporter::RSkill(CHero* enemy)
 {
 }
 
-const char* CSupporter::GetName()
-{
-	return "支援者";
-}
-
-void CSupporter::QSkill(SAttribute* attribute)
+void CSupporter::NormalAttack(CHero* enemy)
 {
 }
 
-void CSupporter::RSkill(SAttribute* attribute)
+void CSupporter::setQcd(int cd)
 {
+	qcd = cd;
 }
 
-void CSupporter::NormalAttack(SAttribute* attribute)
+void CSupporter::setRcd(int cd)
 {
+	rcd = cd;
 }

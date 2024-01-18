@@ -36,13 +36,42 @@ CWarriorBuilder& CWarriorBuilder::setHp(int hp)
 	return *this;
 }
 
-CWarriorBuilder& CWarriorBuilder::setDef(int def)
+CHero* CWarriorBuilder::build()
 {
-	target->SetDef(def);
+	return target;
+}
+
+CSupporterBuilder& CSupporterBuilder::setName(const char* name)
+{
+	target->SetName(name);
 	return *this;
 }
 
-CHero* CWarriorBuilder::build()
+CSupporterBuilder& CSupporterBuilder::setAP(int ap)
+{
+	target->SetAP(ap);
+	return *this;
+}
+
+CSupporterBuilder& CSupporterBuilder::setQcd(int cd)
+{
+	target->setQcd(cd);
+	return *this;
+}
+
+CSupporterBuilder& CSupporterBuilder::setRcd(int cd)
+{
+	target->setRcd(cd);
+	return *this;
+}
+
+CSupporterBuilder& CSupporterBuilder::setHp(int hp)
+{
+	target->SetHp(hp);
+	return *this;
+}
+
+CHero* CSupporterBuilder::build()
 {
 	return target;
 }

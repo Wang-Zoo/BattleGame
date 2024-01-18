@@ -22,10 +22,9 @@ void CGAME::Init()
 {
 	//创建左边队伍
 	{
-		CWarriorBuilder builder;
-		CHero* temp = builder
+		CWarriorBuilder wbuilder;
+		CHero* temp = wbuilder
 			.setHp(3000)
-			.setDef(3000)
 			.setAD(300)
 			.setBJ(30)
 			.setQcd(3)
@@ -33,18 +32,36 @@ void CGAME::Init()
 			.setName("赵云")
 			.build();
 		leftTeam.push_back(temp);
+
+		CSupporterBuilder  sbuilder;
+		temp = sbuilder
+			.setHp(2000)
+			.setAP(300)
+			.setQcd(5)
+			.setName("蔡文姬")
+			.build();
+
+		leftTeam.push_back(temp);
 	}
 	//创建右边队伍
 	{
-		CWarriorBuilder builder;
-		CHero* temp = builder
+		CWarriorBuilder wbuilder;
+		CHero* temp = wbuilder
 			.setHp(3500)
-			.setDef(3000)
 			.setAD(200)
 			.setBJ(30)
 			.setQcd(2)
 			.setRcd(4)
 			.setName("马超")
+			.build();
+		rightTeam.push_back(temp);
+
+		CSupporterBuilder sbuilder;
+		temp = sbuilder
+			.setHp(2000)
+			.setAP(200)
+			.setQcd(3)
+			.setName("杨玉环")
 			.build();
 		rightTeam.push_back(temp);
 	}
@@ -53,20 +70,36 @@ void CGAME::Init()
 void CGAME::Run()
 {
 	int round = 0;
+	bool leftBattle = true;
 	while (1) {
 		std::cout << "=======================第" << ++round << "回合========================\n";
-		//左右队伍各选一个英雄
-		int leftIndex = CRandom::getInstance().getRandomIntRange(leftTeam.size()-1, 0);
-		CHero *leftHero = leftTeam[leftIndex];
-		int rightIndex = CRandom::getInstance().getRandomIntRange(rightTeam.size()-1, 0);
-		CHero* rightHero = rightTeam[rightIndex];
-
-		leftHero->Action(rightHero);
-		rightHero->Action(leftHero);
+		//左边战队
+		if (leftBattle) {
+			CHero* leftHero = leftTeam[CRandom::getInstance().getRandomIntRange(leftTeam.size() - 1, 0)];
+			CSupporter* leftSupporter = dynamic_cast<CSupporter*>(leftHero);
+			//左边抽到了辅助
+			if (leftSupporter) {
+				leftHero->Action(leftTeam[CRandom::getInstance().getRandomIntRange(leftTeam.size() - 1, 0)]);
+			}
+			else {
+				leftHero->Action(rightTeam[CRandom::getInstance().getRandomIntRange(rightTeam.size() - 1, 0)]);
+			}
+		}
+		//右边战队
+		else {
+			CHero* rightHero = rightTeam[CRandom::getInstance().getRandomIntRange(rightTeam.size() - 1, 0)];
+			CSupporter* rightSupporter = dynamic_cast<CSupporter*>(rightHero);
+			if (rightSupporter) {
+				rightHero->Action(rightTeam[CRandom::getInstance().getRandomIntRange(rightTeam.size() - 1, 0)]);
+			}
+			else {
+				rightHero->Action(leftTeam[CRandom::getInstance().getRandomIntRange(leftTeam.size() - 1, 0)]);
+			}
+		}
 
 		forEach(&leftTeam, [](CHero* temp) {
 			CHero& tempHero = *temp;
-			tempHero.Run();
+			tempHero.Run();  
 			std::cout << tempHero.GetName() << "剩余血量：" << tempHero.getHp()<<std::endl;
 			});
 		forEach(&rightTeam, [](CHero* temp) {
@@ -74,6 +107,7 @@ void CGAME::Run()
 			tempHero.Run();
 			std::cout << tempHero.GetName() << "剩余血量：" << tempHero.getHp() << std::endl;
 			});
+		leftBattle = !leftBattle;
 		system("pause");
 	}
 }

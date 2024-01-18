@@ -14,6 +14,19 @@ public:
 	CWarriorBuilder& setQcd(int cd);
 	CWarriorBuilder& setRcd(int cd);
 	CWarriorBuilder& setHp(int hp);
-	CWarriorBuilder& setDef(int def);
+	CHero* build();
+};
+
+class CSupporterBuilder
+{
+private:
+	CSupporter* target = new CSupporter;
+
+public:
+	CSupporterBuilder& setName(const char* name);
+	CSupporterBuilder& setAP(int ad);
+	CSupporterBuilder& setQcd(int cd);
+	CSupporterBuilder& setRcd(int cd);
+	CSupporterBuilder& setHp(int hp);
 	CHero* build();
 };
