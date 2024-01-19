@@ -2,6 +2,9 @@
 #include"hero.h"
 //Õ½Ê¿Ó¢ÐÛ
 class CSupporter : public CHero, public CSkill {
+private:
+	CSupporter();
+	friend class CSupporterBuilder;
 public:
 	void Run();
 	void Action(CHero* tag);

@@ -12,8 +12,9 @@ struct SAttribute
 //Ó¢ÐÛ»ùÀà
 class CHero {
 protected:
+	CHero();
 	SAttribute mAttribute;
-	int mState;
+	int mState = 0;
 	const char* name = 0;
 public:
 	virtual	void Run();

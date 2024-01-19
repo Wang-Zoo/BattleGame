@@ -1,6 +1,10 @@
 #include "supporter.h"
 #include <iostream>
 #include "random.h"
+
+CSupporter::CSupporter()
+{
+}
 void CSupporter::Run()
 {
 	CHero::Run();
@@ -29,9 +33,9 @@ void CSupporter::QSkill(CHero* ally)
 {
 	std::cout << name <<"开启了加血功能 ";
 	int random = CRandom::getInstance().getRandomIntRange(1, 10);
-	float targetData = mAttribute.ap;
+	float targetData = (float)mAttribute.ap;
 	targetData += (targetData * random / 10);
-	ally->GetAttribute()->hp += targetData;
+	ally->GetAttribute()->hp += (int)targetData;
 	std::cout << "给队友"<<ally->GetName()<<"加了" << targetData << "点血量\n";
 }
 

@@ -1,12 +1,11 @@
 #include<iostream>
-#include"random.h"
+#include"tool.h"
 #include"iostream"
 #include "game.h"
 int main() {
 
 	//初始化随机数种子
-	CRandom::getInstance().Init();
-
+	randomInit();
 	CGAME game;
 	game.Init();
 	game.Run();

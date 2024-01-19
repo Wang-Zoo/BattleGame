@@ -1,5 +1,10 @@
 #include "hero.h"
 
+CHero::CHero()
+{
+
+}
+
 void CHero::Run()
 {
 

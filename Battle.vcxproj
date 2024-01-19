@@ -135,6 +135,7 @@
     <ClCompile Include="output.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="supporter.cpp" />
+    <ClCompile Include="tool.cpp" />
     <ClCompile Include="warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="output.h" />
     <ClInclude Include="supporter.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="tool.h" />
     <ClInclude Include="warrior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

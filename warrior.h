@@ -2,8 +2,10 @@
 #include"hero.h"
 //Õ½Ê¿Ó¢ÐÛ
 class CWarrior : public CHero, public CSkill {
-public:
+private:
 	CWarrior();
+	friend class CWarriorBuilder;
+public:
 	void Run();
 	void Action(CHero* tag);
 	void QSkill(CHero* enemy);

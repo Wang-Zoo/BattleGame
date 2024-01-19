@@ -1,7 +1,7 @@
 #include "warrior.h"
 #include "output.h"
 #include <iostream>
-#include "random.h"
+#include "tool.h"
 
 CWarrior::CWarrior()
 {
@@ -35,7 +35,7 @@ void CWarrior::QSkill(CHero* enemy)
 {
 	int gj = mAttribute.ad;
 	std::cout << name << "发动技能";
-	int tempRandom = CRandom::getInstance().getRandomInt();
+	int tempRandom = getRandomInt();
 	if (tempRandom % 100 < mAttribute.bj) {//暴击
 		gj +=( gj * this->mAttribute.bjValue/100);
 		std::cout << "暴击！！";
@@ -52,7 +52,7 @@ void CWarrior::RSkill(CHero* enemy)
 {
 	int gj = mAttribute.ad;
 	std::cout << name << "发动了大招技能";
-	int tempRandom = CRandom::getInstance().getRandomInt();
+	int tempRandom = getRandomInt();
 	if (tempRandom % 100 < mAttribute.bj) {//暴击
 		gj += (gj * this->mAttribute.bjValue/100);
 		std::cout << " 暴击！！";
@@ -68,7 +68,7 @@ void CWarrior::RSkill(CHero* enemy)
 void CWarrior::NormalAttack(CHero* enemy)
 {
 	int gj = mAttribute.ad;
-	int tempRandom = CRandom::getInstance().getRandomInt();
+	int tempRandom = getRandomInt();
 	std::cout << name << "发动了普通攻击";
 	std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害\n";
 

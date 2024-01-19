@@ -2,25 +2,10 @@
 #include "builder.h"
 #include "random.h"
 #include "iostream"
-/*
-战士：Q快速攻击 ，少量暴击效果，cd 3s ：R 重击，大量暴击效果，cd 5s；A 普通攻击，无暴击
-辅助：Q给一个队友加大量血，cd 5s；R给多个队友加少量血，cd 5s，A 普通攻击
-坦克：Q给队友添加一个护盾，能够帮队友减少一次所受攻击值，该效果一次性的，cd 5s, 
-*/
+#include "tool.h"
 
-void CGAME::forEach(std::vector<CHero*> *origins, HeroCallback callback)
+void CGAME::createLeftTeam()
 {
-	std::vector<CHero*>::iterator it = (*origins).begin();
-
-	for (;it!=(*origins).end();it++)
-	{
-		callback(*it);
-	}
-}
-
-void CGAME::Init()
-{
-	//创建左边队伍
 	{
 		CWarriorBuilder wbuilder;
 		CHero* temp = wbuilder
@@ -32,18 +17,34 @@ void CGAME::Init()
 			.setName("赵云")
 			.build();
 		leftTeam.push_back(temp);
-
+	}
+	{
+		CWarriorBuilder wbuilder;
+		CHero* temp = wbuilder
+			.setHp(3000)
+			.setAD(300)
+			.setBJ(30)
+			.setQcd(3)
+			.setRcd(5)
+			.setName("马超")
+			.build();
+		leftTeam.push_back(temp);
+	}
+	{
 		CSupporterBuilder  sbuilder;
-		temp = sbuilder
+		CHero* temp = sbuilder
 			.setHp(2000)
 			.setAP(300)
 			.setQcd(5)
-			.setName("蔡文姬")
+			.setName("庞统")
 			.build();
 
 		leftTeam.push_back(temp);
 	}
-	//创建右边队伍
+}
+
+void CGAME::createRightTeam()
+{
 	{
 		CWarriorBuilder wbuilder;
 		CHero* temp = wbuilder
@@ -52,19 +53,69 @@ void CGAME::Init()
 			.setBJ(30)
 			.setQcd(2)
 			.setRcd(4)
-			.setName("马超")
-			.build();
-		rightTeam.push_back(temp);
-
-		CSupporterBuilder sbuilder;
-		temp = sbuilder
-			.setHp(2000)
-			.setAP(200)
-			.setQcd(3)
-			.setName("杨玉环")
+			.setName("张辽")
 			.build();
 		rightTeam.push_back(temp);
 	}
+	{
+		CWarriorBuilder wbuilder;
+		CHero* temp = wbuilder
+			.setHp(3500)
+			.setAD(200)
+			.setBJ(30)
+			.setQcd(2)
+			.setRcd(4)
+			.setName("典韦")
+			.build();
+		rightTeam.push_back(temp);
+	}
+	{
+		CSupporterBuilder sbuilder;
+		CHero* temp = sbuilder
+			.setHp(2000)
+			.setAP(200)
+			.setQcd(3)
+			.setName("贾诩")
+			.build();
+		rightTeam.push_back(temp);
+	}
+}
+
+void CGAME::choose(bool isLeft)
+{
+	auto& ourTeam = isLeft ? leftTeam : rightTeam;
+	forEach(&ourTeam, &leftTeam, &rightTeam, [](CHero* target, auto ourTeam, auto enemyTeam) {
+		if (dynamic_cast<CSupporter*>(target)) {//如果是辅助
+			bool onlySupporter = (*ourTeam).size() == 1;//如果只剩辅助
+			if (onlySupporter) {//一把梭哈
+
+			}
+			else {//辅助队友
+				std::vector<CHero*>::iterator it = (*ourTeam).begin();
+				CHero* allay = 0;
+				for (; it != (*ourTeam).end(); it++)
+				{
+					if (!dynamic_cast<CSupporter*>((*it))) {
+						allay = (*it);
+						break;
+					}
+				}
+				target->Action(allay);
+			}
+		}
+		else {
+			CHero* enemy = (*enemyTeam)[getRandomIntRange((*enemyTeam).size() - 1, 0)];
+			target->Action(enemy);
+		}
+		});
+}
+
+void CGAME::Init()
+{
+	//创建左边队伍
+	createLeftTeam();
+	//创建右边队伍
+	createRightTeam();
 }
 
 void CGAME::Run()
@@ -73,53 +124,37 @@ void CGAME::Run()
 	bool leftBattle = true;
 	while (1) {
 		std::cout << "=======================第" << ++round << "回合========================\n";
-		//左边战队
-		if (leftBattle) {
-			CHero* leftHero = leftTeam[CRandom::getInstance().getRandomIntRange(leftTeam.size() - 1, 0)];
-			CSupporter* leftSupporter = dynamic_cast<CSupporter*>(leftHero);
-			//左边抽到了辅助
-			if (leftSupporter) {
-				leftHero->Action(leftTeam[CRandom::getInstance().getRandomIntRange(leftTeam.size() - 1, 0)]);
-			}
-			else {
-				leftHero->Action(rightTeam[CRandom::getInstance().getRandomIntRange(rightTeam.size() - 1, 0)]);
-			}
-		}
+		//左边战队	
+		choose(true);
 		//右边战队
-		else {
-			CHero* rightHero = rightTeam[CRandom::getInstance().getRandomIntRange(rightTeam.size() - 1, 0)];
-			CSupporter* rightSupporter = dynamic_cast<CSupporter*>(rightHero);
-			if (rightSupporter) {
-				rightHero->Action(rightTeam[CRandom::getInstance().getRandomIntRange(rightTeam.size() - 1, 0)]);
-			}
-			else {
-				rightHero->Action(leftTeam[CRandom::getInstance().getRandomIntRange(leftTeam.size() - 1, 0)]);
-			}
-		}
-
+		choose(false);
+		//打印血量
 		forEach(&leftTeam, [](CHero* temp) {
 			CHero& tempHero = *temp;
-			tempHero.Run();  
-			std::cout << tempHero.GetName() << "剩余血量：" << tempHero.getHp()<<std::endl;
+			tempHero.Run();
+			std::cout << tempHero.GetName() << "剩余血量：" << tempHero.getHp() << std::endl;
+			return false;
 			});
 		forEach(&rightTeam, [](CHero* temp) {
 			CHero& tempHero = *temp;
 			tempHero.Run();
 			std::cout << tempHero.GetName() << "剩余血量：" << tempHero.getHp() << std::endl;
+			return false;
 			});
-		leftBattle = !leftBattle;
 		system("pause");
 	}
 }
 
 void CGAME::End()
 {
-	
+
 	forEach(&leftTeam, [](CHero* temp) {
 		delete temp;
+		return false;
 		});
 	forEach(&rightTeam, [](CHero* temp) {
 		delete temp;
+		return false;
 		});
 
 	leftTeam.clear();
