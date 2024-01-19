@@ -11,6 +11,7 @@ private:
 	void createLeftTeam();
 	void createRightTeam();
 	void choose(bool isLeft);
+	void displayHero(bool isLeft);
 public:
 	void Init();
 	void Run();

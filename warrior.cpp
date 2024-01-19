@@ -2,6 +2,7 @@
 #include "output.h"
 #include <iostream>
 #include "tool.h"
+#include "windows.h"
 
 CWarrior::CWarrior()
 {
@@ -33,6 +34,8 @@ void CWarrior::Action(CHero* enemy)
 
 void CWarrior::QSkill(CHero* enemy)
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED| FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	int gj = mAttribute.ad;
 	std::cout << name << "发动技能";
 	int tempRandom = getRandomInt();
@@ -43,13 +46,27 @@ void CWarrior::QSkill(CHero* enemy)
 	else {
 		std::cout << "击中！";
 	}
-	enemy->GetAttribute()->hp -= gj;
-	std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害\n";
-
+	int tempGj = enemy->subDef(gj);
+	if (tempGj == gj) {
+		enemy->damage(gj);
+		std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害\n";
+	}
+	else {
+		std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害，";
+		if (tempGj == 0) {
+			std::cout << "但由于" << enemy->GetName() << "有护盾，格挡了此次攻击\n";
+		}
+		else {
+			std::cout << "但由于" << enemy->GetName() << "有护盾，抵消了" << gj - tempGj << "点伤害\n";
+		}
+	}
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
 
 void CWarrior::RSkill(CHero* enemy)
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	int gj = mAttribute.ad;
 	std::cout << name << "发动了大招技能";
 	int tempRandom = getRandomInt();
@@ -60,18 +77,44 @@ void CWarrior::RSkill(CHero* enemy)
 	else {
 		std::cout << " 击中!";
 	}
-	enemy->GetAttribute()->hp -= gj;
-	std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害\n";
-
+	int tempGj = enemy->subDef(gj);
+	if (tempGj == gj) {
+		enemy->damage(gj);
+		std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害\n";
+	}
+	else {
+		std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害，";
+		if (tempGj == 0) {
+			std::cout << "但由于" << enemy->GetName() << "有护盾，格挡了此次攻击\n";
+		}else{
+			std::cout << "但由于" << enemy->GetName() << "有护盾，抵消了" << gj-tempGj << "点伤害\n";
+		}
+	}
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
 
 void CWarrior::NormalAttack(CHero* enemy)
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	int gj = mAttribute.ad;
 	int tempRandom = getRandomInt();
 	std::cout << name << "发动了普通攻击";
-	std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害\n";
-
+	int tempGj = enemy->subDef(gj);
+	if (tempGj == gj) {
+		enemy->damage(gj);
+		std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害\n";
+	}
+	else {
+		std::cout << "对" << enemy->GetName() << "产生了" << gj << "点伤害，";
+		if (tempGj == 0) {
+			std::cout << "但由于" << enemy->GetName() << "有护盾，格挡了此次攻击\n";
+		}
+		else {
+			std::cout << "但由于" << enemy->GetName() << "有护盾，抵消了" << gj - tempGj << "点伤害\n";
+		}
+	}
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
 
 void CWarrior::setQcd(int cd)

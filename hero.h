@@ -15,20 +15,24 @@ protected:
 	CHero();
 	SAttribute mAttribute;
 	int mState = 0;
+	bool alive = true;
 	const char* name = 0;
 public:
 	virtual	void Run();
 	virtual void Action(CHero* tag);
-	SAttribute* GetAttribute();
 	const char* GetName();
 	void SetAD(int ad);
 	void SetAP(int ad);
 	void SetBJ(int bj);
 	void SetHp(int hp);
 	void SetDef(int def);
+	int subDef(int gj);
+	int getDef();
 	void SetName(const char *);
-	void setQcd(int cd);
-	void setRcd(int cd);
+	void damage(int hp);
+	void healing(int hp);
+	void dead();
+	bool isAlive();
 	int getHp();
 	int getState();
 	void setState(int state);

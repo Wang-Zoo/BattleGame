@@ -3,6 +3,7 @@
 #include "random.h"
 #include "iostream"
 #include "tool.h"
+#include "Windows.h"
 
 void CGAME::createLeftTeam()
 {
@@ -88,7 +89,17 @@ void CGAME::choose(bool isLeft)
 		if (dynamic_cast<CSupporter*>(target)) {//如果是辅助
 			bool onlySupporter = (*ourTeam).size() == 1;//如果只剩辅助
 			if (onlySupporter) {//一把梭哈
-
+				bool selfDestory = getRandomIntRange(1,0);
+				if (selfDestory) {
+					std::vector<CHero*>::iterator it = (*enemyTeam).begin();
+					for (; it != (*enemyTeam).end(); it++)
+					{
+						(*it)->dead();
+					}
+				}
+				else {
+					(*target).dead();
+				}
 			}
 			else {//辅助队友
 				std::vector<CHero*>::iterator it = (*ourTeam).begin();
@@ -110,6 +121,25 @@ void CGAME::choose(bool isLeft)
 		});
 }
 
+void CGAME::displayHero(bool isLeft)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, isLeft? (FOREGROUND_RED | FOREGROUND_INTENSITY):(FOREGROUND_BLUE | FOREGROUND_INTENSITY));
+
+	forEach(isLeft?&leftTeam:&rightTeam, [](CHero* temp) {
+		CHero& tempHero = *temp;
+		tempHero.Run();
+		std::cout << tempHero.GetName()
+			<< "  HP：" << tempHero.getHp()
+			<< "|DEF：" << tempHero.getDef()
+			<< std::endl;
+		return false;
+		});
+
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+
+}
+
 void CGAME::Init()
 {
 	//创建左边队伍
@@ -120,27 +150,21 @@ void CGAME::Init()
 
 void CGAME::Run()
 {
-	int round = 0;
+	int round = 1;
 	bool leftBattle = true;
 	while (1) {
-		std::cout << "=======================第" << ++round << "回合========================\n";
+		std::cout << "=======================第" << round << "回合开始========================\n";
 		//左边战队	
 		choose(true);
 		//右边战队
 		choose(false);
-		//打印血量
-		forEach(&leftTeam, [](CHero* temp) {
-			CHero& tempHero = *temp;
-			tempHero.Run();
-			std::cout << tempHero.GetName() << "剩余血量：" << tempHero.getHp() << std::endl;
-			return false;
-			});
-		forEach(&rightTeam, [](CHero* temp) {
-			CHero& tempHero = *temp;
-			tempHero.Run();
-			std::cout << tempHero.GetName() << "剩余血量：" << tempHero.getHp() << std::endl;
-			return false;
-			});
+		std::cout << "=======================第" << round << "回合结算========================\n";
+		//打印左边战队血量
+		displayHero(true);
+		//打印右边战队血量
+		displayHero(false);
+		std::cout << "=======================第" << round<< "回合结束========================\n";
+		round++;
 		system("pause");
 	}
 }

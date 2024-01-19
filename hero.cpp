@@ -15,11 +15,6 @@ void CHero::Action(CHero* tag)
 
 }
 
-SAttribute* CHero::GetAttribute()
-{
-	return &mAttribute;
-}
-
 const char* CHero::GetName()
 {
 	return name;
@@ -50,9 +45,51 @@ void CHero::SetDef(int def)
 	this->mAttribute.def = def;
 }
 
+int CHero::subDef(int gj)
+{
+	if(mAttribute.def==0){
+		return gj;
+	}
+	else if(mAttribute.def >= gj) {
+		SetDef(0);
+		return 0;
+	}
+	else {
+		return  gj - mAttribute.def;
+	}
+}
+
+int CHero::getDef()
+{
+	return mAttribute.def;
+}
+
 void CHero::SetName(const char* name)
 {
 	this->name = name;
+}
+
+void CHero::damage(int hp)
+{
+	mAttribute.hp -= hp;
+	if (mAttribute.hp <= 0) {
+		dead();
+	}
+}
+
+void CHero::healing(int hp)
+{
+	mAttribute.hp += hp;
+}
+
+void CHero::dead()
+{
+	alive = false;
+}
+
+bool CHero::isAlive()
+{
+	return alive;
 }
 
 int CHero::getHp()
