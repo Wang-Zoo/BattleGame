@@ -91,12 +91,14 @@ void CHero::SetDef(int def)
 
 int CHero::subDef(int gj)
 {
-	SetDef(0);
 	if(mAttribute.def >= gj) {
+		SetDef(0);
 		return 0;
 	}
 	else {
-		return  gj - mAttribute.def;
+		int retain = gj - mAttribute.def;
+		SetDef(0);
+		return  retain;
 	}
 }
 
