@@ -98,7 +98,7 @@ void CGAME::choose(bool isLeft)
 		if (dynamic_cast<CSupporter*>(target)) {//Èç¹ûÊÇ¸¨Öú
 
 			auto allIt = (*ourTeam).begin();
-			int aliveCount = 1;
+			int aliveCount = 0;
 			for (;allIt!=(*ourTeam).end();allIt++)
 			{
 				if ((*allIt)->isAlive()) {

@@ -91,15 +91,11 @@ void CHero::SetDef(int def)
 
 int CHero::subDef(int gj)
 {
-	if(mAttribute.def==0){
-		return gj;
-	}
-	else if(mAttribute.def >= gj) {
-		SetDef(0);
+	SetDef(0);
+	if(mAttribute.def >= gj) {
 		return 0;
 	}
 	else {
-		SetDef(0);
 		return  gj - mAttribute.def;
 	}
 }
@@ -173,7 +169,6 @@ void CNormalAttack::Action(CHero* ally, CHero* enemy)
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	int gj = ally->getAD();
-	int tempRandom = getRandomInt();
 	std::cout << ally->GetName() << "สนำรมห" <<getName();
 	int tempGj = enemy->subDef(gj);
 	calculate(tempGj, gj, enemy);
