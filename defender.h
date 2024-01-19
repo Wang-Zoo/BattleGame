@@ -1,7 +1,7 @@
 #pragma once
 #include"hero.h"
 //Õ½Ê¿Ó¢ÐÛ
-class CDefender : public CHero, public CSkill {
+class CDefender : public CHero {
 public:
 	void Init();
 	void Run();

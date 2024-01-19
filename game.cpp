@@ -13,8 +13,9 @@ void CGAME::createLeftTeam()
 			.setHp(3000)
 			.setAD(300)
 			.setBJ(30)
-			.setQcd(3)
-			.setRcd(5)
+			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((CSkill*)(new CWarriorSkillNumber1))
+			.addSkill((CSkill*)(new CWarriorSkillNumber2))
 			.setName("赵云")
 			.build();
 		leftTeam.push_back(temp);
@@ -25,8 +26,9 @@ void CGAME::createLeftTeam()
 			.setHp(3000)
 			.setAD(300)
 			.setBJ(30)
-			.setQcd(3)
-			.setRcd(5)
+			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((CSkill*)(new CWarriorSkillNumber3))
+			.addSkill((CSkill*)(new CWarriorSkillNumber4))
 			.setName("马超")
 			.build();
 		leftTeam.push_back(temp);
@@ -36,7 +38,8 @@ void CGAME::createLeftTeam()
 		CHero* temp = sbuilder
 			.setHp(2000)
 			.setAP(300)
-			.setQcd(5)
+			.addSkill((CSkill*)(new CHealingSkillNumberOne))
+			.addSkill((CSkill*)(new CHealingSkillNumberTwo))
 			.setName("庞统")
 			.build();
 
@@ -52,8 +55,9 @@ void CGAME::createRightTeam()
 			.setHp(3500)
 			.setAD(200)
 			.setBJ(30)
-			.setQcd(2)
-			.setRcd(4)
+			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((CSkill*)(new CWarriorSkillNumber5))
+			.addSkill((CSkill*)(new CWarriorSkillNumber6))
 			.setName("张辽")
 			.build();
 		rightTeam.push_back(temp);
@@ -64,8 +68,9 @@ void CGAME::createRightTeam()
 			.setHp(3500)
 			.setAD(200)
 			.setBJ(30)
-			.setQcd(2)
-			.setRcd(4)
+			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((CSkill*)(new CWarriorSkillNumber7))
+			.addSkill((CSkill*)(new CWarriorSkillNumber8))
 			.setName("典韦")
 			.build();
 		rightTeam.push_back(temp);
@@ -75,7 +80,8 @@ void CGAME::createRightTeam()
 		CHero* temp = sbuilder
 			.setHp(2000)
 			.setAP(200)
-			.setQcd(3)
+			.addSkill((CSkill*)(new CHealingSkillNumberThree))
+			.addSkill((CSkill*)(new CHealingSkillNumberFour))
 			.setName("贾诩")
 			.build();
 		rightTeam.push_back(temp);
@@ -86,6 +92,9 @@ void CGAME::choose(bool isLeft)
 {
 	auto& ourTeam = isLeft ? leftTeam : rightTeam;
 	forEach(&ourTeam, &leftTeam, &rightTeam, [](CHero* target, auto ourTeam, auto enemyTeam) {
+		if (!target->isAlive()) {
+			return;
+		}
 		if (dynamic_cast<CSupporter*>(target)) {//如果是辅助
 			bool onlySupporter = (*ourTeam).size() == 1;//如果只剩辅助
 			if (onlySupporter) {//一把梭哈
@@ -106,7 +115,8 @@ void CGAME::choose(bool isLeft)
 				CHero* allay = 0;
 				for (; it != (*ourTeam).end(); it++)
 				{
-					if (!dynamic_cast<CSupporter*>((*it))) {
+					//找到一个还活着的战士队友
+					if (!dynamic_cast<CSupporter*>((*it))&&(*it)->isAlive()) {
 						allay = (*it);
 						break;
 					}
@@ -115,7 +125,11 @@ void CGAME::choose(bool isLeft)
 			}
 		}
 		else {
-			CHero* enemy = (*enemyTeam)[getRandomIntRange((*enemyTeam).size() - 1, 0)];
+			//找到一个没有死亡的敌军
+			CHero* enemy = 0;
+			while (!enemy||!enemy->isAlive()) {
+				enemy = (*enemyTeam)[getRandomIntRange((*enemyTeam).size() - 1, 0)];
+			}
 			target->Action(enemy);
 		}
 		});
@@ -131,13 +145,34 @@ void CGAME::displayHero(bool isLeft)
 		tempHero.Run();
 		std::cout << tempHero.GetName()
 			<< "  HP：" << tempHero.getHp()
-			<< "|DEF：" << tempHero.getDef()
-			<< std::endl;
+			<< " | DEF：" << tempHero.getDef();
+		auto skills = *(tempHero.getSkills());
+		std::vector<CSkill*>::iterator it = skills.begin();
+		for (;it!=skills.end();it++)
+		{
+			std::cout<<" "<< (*it)->getName() << "CD:" << (*it)->getCCD();
+		}
+		std::cout << std::endl;
 		return false;
 		});
 
 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
+}
+
+bool CGAME::isAllDead(bool isLeft)
+{
+	auto targetTeam = isLeft ? leftTeam :rightTeam;
+	auto it = targetTeam.begin();
+	bool isAll = true;
+	for (;it!=targetTeam.end();it++)
+	{
+		if ((*it)->isAlive()) {
+			isAll = false;
+			break;
+		}
+	}
+	return isAll;
 }
 
 void CGAME::Init()
@@ -152,6 +187,15 @@ void CGAME::Run()
 {
 	int round = 1;
 	bool leftBattle = true;
+	std::cout << "=======================游戏开始========================\n";
+	std::cout << "=========红方数据==========\n";
+	//打印左边战队血量
+	displayHero(true);
+	std::cout << "=========蓝方数据==========\n";
+	//打印右边战队血量
+	displayHero(false);
+	system("pause");
+
 	while (1) {
 		std::cout << "=======================第" << round << "回合开始========================\n";
 		//左边战队	
@@ -164,6 +208,16 @@ void CGAME::Run()
 		//打印右边战队血量
 		displayHero(false);
 		std::cout << "=======================第" << round<< "回合结束========================\n";
+
+		if (isAllDead(true)) {
+			std::cout << "=======================游戏结束，红方胜利========================\n";
+			break;
+		}
+		else if (isAllDead(false)) {
+			std::cout << "=======================游戏结束，蓝方胜利========================\n";
+			break;
+		}
+
 		round++;
 		system("pause");
 	}

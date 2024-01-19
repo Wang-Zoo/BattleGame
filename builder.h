@@ -2,31 +2,28 @@
 #include"hero.h"
 #include"warrior.h"
 #include"supporter.h"
-class CWarriorBuilder
+class CBaseBuilder
 {
-private:
-	CWarrior* target = new CWarrior;
-
+protected:
+	CHero* target  = 0;
 public:
-	CWarriorBuilder& setName(const char* name);
-	CWarriorBuilder& setAD(int ad);
-	CWarriorBuilder& setBJ(int bj);
-	CWarriorBuilder& setQcd(int cd);
-	CWarriorBuilder& setRcd(int cd);
-	CWarriorBuilder& setHp(int hp);
+	CBaseBuilder& setName(const char* name);
+	CBaseBuilder& setAD(int ad);
+	CBaseBuilder& setBJ(int bj);
+	CBaseBuilder& setHp(int hp);
+	CBaseBuilder& setAP(int ad);
+	CBaseBuilder& addSkill(CSkill *s);
 	CHero* build();
 };
 
-class CSupporterBuilder
+class CWarriorBuilder:public CBaseBuilder
 {
-private:
-	CSupporter* target = new CSupporter;
-
 public:
-	CSupporterBuilder& setName(const char* name);
-	CSupporterBuilder& setAP(int ad);
-	CSupporterBuilder& setQcd(int cd);
-	CSupporterBuilder& setRcd(int cd);
-	CSupporterBuilder& setHp(int hp);
-	CHero* build();
+	CWarriorBuilder();
+};
+
+class CSupporterBuilder :public CBaseBuilder
+{
+public :
+	CSupporterBuilder();
 };
