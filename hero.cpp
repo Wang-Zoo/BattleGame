@@ -99,6 +99,7 @@ int CHero::subDef(int gj)
 		return 0;
 	}
 	else {
+		SetDef(0);
 		return  gj - mAttribute.def;
 	}
 }
@@ -274,7 +275,7 @@ void CHealingSkillNumberOne::Action(CHero* ally, CHero* other)
 	int random = getRandomIntRange(1, 10);
 	float targetData = (float)ally->getAP();
 	targetData += (targetData * random / 10);
-	ally->healing((int)targetData);
+	other->healing((int)targetData);
 	std::cout << "给队友" << other->GetName() << "加了" << targetData << "点血量\n";
 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
@@ -297,7 +298,7 @@ void CHealingSkillNumberTwo::Action(CHero* ally, CHero* other)
 	int random = getRandomIntRange(1, 10);
 	float targetData = (float)ally->getAP();
 	targetData += (targetData * random / 10);
-	ally->SetDef((int)targetData);
+	other->SetDef((int)targetData);
 	std::cout << "给队友" << other->GetName() << "加了" << targetData << "点护盾，为下次防御提供了保障\n";
 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
@@ -523,7 +524,7 @@ void CHealingSkillNumberThree::Action(CHero* ally, CHero* other)
 	int random = getRandomIntRange(1, 10);
 	float targetData = (float)ally->getAP();
 	targetData += (targetData * random / 10);
-	ally->SetDef((int)targetData);
+	other->SetDef((int)targetData);
 	std::cout << "给队友" << other->GetName() << "加了" << targetData << "点护盾，为下次防御提供了保障\n";
 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
@@ -546,7 +547,7 @@ void CHealingSkillNumberFour::Action(CHero* ally, CHero* other)
 	int random = getRandomIntRange(1, 10);
 	float targetData = (float)ally->getAP();
 	targetData += (targetData * random / 10);
-	ally->healing((int)targetData);
+	other->healing((int)targetData);
 	std::cout << "给队友" << other->GetName() << "加了" << targetData << "点血量\n";
 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
