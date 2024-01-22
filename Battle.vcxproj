@@ -135,6 +135,7 @@
     <ClCompile Include="output.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="supporter.cpp" />
+    <ClCompile Include="team.cpp" />
     <ClCompile Include="tool.cpp" />
     <ClCompile Include="warrior.cpp" />
   </ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="output.h" />
     <ClInclude Include="supporter.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="team.h" />
     <ClInclude Include="tool.h" />
     <ClInclude Include="warrior.h" />
   </ItemGroup>

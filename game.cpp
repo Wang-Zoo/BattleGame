@@ -7,6 +7,7 @@
 
 void CGAME::createLeftTeam()
 {
+	CTEAM* team = new CTEAM(FOREGROUND_GREEN,"蜀国");
 	{
 		CWarriorBuilder wbuilder;
 		CHero* temp = wbuilder
@@ -18,7 +19,7 @@ void CGAME::createLeftTeam()
 			.addSkill((CSkill*)(new CNormalAttack))
 			.setName("赵云")
 			.build();
-		leftTeam.push_back(temp);
+		team->addHero(temp);
 	}
 	{
 		CWarriorBuilder wbuilder;
@@ -31,7 +32,7 @@ void CGAME::createLeftTeam()
 			.addSkill((CSkill*)(new CNormalAttack))
 			.setName("马超")
 			.build();
-		leftTeam.push_back(temp);
+		team->addHero(temp);
 	}
 	{
 		CSupporterBuilder  sbuilder;
@@ -43,16 +44,18 @@ void CGAME::createLeftTeam()
 			.setName("庞统")
 			.build();
 
-		leftTeam.push_back(temp);
+		team->addHero(temp);
 	}
+	teams.push_back(team);
 }
 
 void CGAME::createRightTeam()
 {
+	CTEAM* team = new CTEAM(FOREGROUND_BLUE,"魏国");
 	{
 		CWarriorBuilder wbuilder;
 		CHero* temp = wbuilder
-			.setHp(3500)
+			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
 			.addSkill((CSkill*)(new CWarriorSkillNumber5))
@@ -60,12 +63,12 @@ void CGAME::createRightTeam()
 			.addSkill((CSkill*)(new CNormalAttack))
 			.setName("张辽")
 			.build();
-		rightTeam.push_back(temp);
+		team->addHero(temp);
 	}
 	{
 		CWarriorBuilder wbuilder;
 		CHero* temp = wbuilder
-			.setHp(3500)
+			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
 			.addSkill((CSkill*)(new CWarriorSkillNumber7))
@@ -73,7 +76,7 @@ void CGAME::createRightTeam()
 			.addSkill((CSkill*)(new CNormalAttack))
 			.setName("典韦")
 			.build();
-		rightTeam.push_back(temp);
+		team->addHero(temp);
 	}
 	{
 		CSupporterBuilder sbuilder;
@@ -84,134 +87,67 @@ void CGAME::createRightTeam()
 			.addSkill((CSkill*)(new CHealingSkillNumberFour))
 			.setName("贾诩")
 			.build();
-		rightTeam.push_back(temp);
+		team->addHero(temp);
 	}
+	teams.push_back(team);
 }
 
-void CGAME::choose(bool isLeft)
+void CGAME::createMiddleTeam()
 {
-	auto& ourTeam = isLeft ? leftTeam : rightTeam;
-	forEach(&ourTeam, &leftTeam, &rightTeam, [](CHero* target, auto ourTeam, auto enemyTeam) {
-		if (!target->isAlive()) {
-			return;
-		}
-		if (dynamic_cast<CSupporter*>(target)) {//如果是辅助
-
-			auto allIt = (*ourTeam).begin();
-			int aliveCount = 0;
-			for (;allIt!=(*ourTeam).end();allIt++)
-			{
-				if ((*allIt)->isAlive()) {
-					aliveCount++;
-				}
-			}
-			bool onlySupporter = aliveCount==1;//如果只剩辅助
-			if (onlySupporter) {//一把梭哈
-
-				std::cout << target->GetName() << "孤军奋战，他准备发动【毁天灭地】来一把梭哈\n";
-				system("pause");
-
-				bool selfDestory = getRandomIntRange(1,0);
-				if (selfDestory) {
-					std::vector<CHero*>::iterator it = (*enemyTeam).begin();
-					for (; it != (*enemyTeam).end(); it++)
-					{
-						(*it)->dead();
-					}
-					std::cout << target->GetName() << "梭哈成功！绝地反击\n";
-				}
-				else {
-					(*target).dead();
-					std::cout << target->GetName() << "梭哈失败！饮恨而终\n";
-				}
-			}
-			else {//辅助队友
-				std::vector<CHero*>::iterator it = (*ourTeam).begin();
-				CHero* allay = 0;
-
-				while (!allay || dynamic_cast<CSupporter*>(allay) || !allay->isAlive()) {
-					allay = (*ourTeam)[getRandomIntRange((*ourTeam).size() - 1, 0)];
-				}
-
-				target->Action(allay);
-			}
-		}
-		else {
-
-			auto it = (*enemyTeam).begin();
-			bool isAll = true;
-			for (; it != (*enemyTeam).end(); it++)
-			{
-				if ((*it)->isAlive()) {
-					isAll = false;
-					break;
-				}
-			}
-			if (!isAll) {
-				//找到一个没有死亡的敌军
-				CHero* enemy = 0;
-				while (!enemy || !enemy->isAlive()) {
-					enemy = (*enemyTeam)[getRandomIntRange((*enemyTeam).size() - 1, 0)];
-				}
-				target->Action(enemy);
-			}
-		}
-		});
-}
-
-void CGAME::displayHero(bool isLeft)
-{
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, isLeft? (FOREGROUND_RED | FOREGROUND_INTENSITY):(FOREGROUND_BLUE | FOREGROUND_INTENSITY));
-
-	forEach(isLeft?&leftTeam:&rightTeam, [](CHero* temp) {
-		CHero& tempHero = *temp;
-		tempHero.Run();
-
-		if (tempHero.isAlive()) {
-			std::cout << tempHero.GetName()
-				<< "  HP：" << tempHero.getHp()
-				<< " | DEF：" << tempHero.getDef();
-			auto skills = *(tempHero.getSkills());
-			std::vector<CSkill*>::iterator it = skills.begin();
-			for (; it != skills.end(); it++)
-			{
-				std::cout << " " << (*it)->getName() << "CD:" << (*it)->getCCD();
-			}
-			std::cout << std::endl;
-		}
-		else {
-			std::cout << tempHero.GetName() << "  已经洗白\n";
-		}
-
-
-		return false;
-		});
-
-	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-
-}
-
-bool CGAME::isAllDead(bool isLeft)
-{
-	auto targetTeam = isLeft ? leftTeam :rightTeam;
-	auto it = targetTeam.begin();
-	bool isAll = true;
-	for (;it!=targetTeam.end();it++)
+	CTEAM* team = new CTEAM(FOREGROUND_RED, "吴国");
 	{
-		if ((*it)->isAlive()) {
-			isAll = false;
-			break;
-		}
+		CWarriorBuilder wbuilder;
+		CHero* temp = wbuilder
+			.setHp(1000)
+			.setAD(200)
+			.setBJ(30)
+			.addSkill((CSkill*)(new CWarriorSkillNumber5))
+			.addSkill((CSkill*)(new CWarriorSkillNumber6))
+			.addSkill((CSkill*)(new CNormalAttack))
+			.setName("孙策")
+			.build();
+		team->addHero(temp);
 	}
-	return isAll;
+	{
+		CWarriorBuilder wbuilder;
+		CHero* temp = wbuilder
+			.setHp(1000)
+			.setAD(200)
+			.setBJ(30)
+			.addSkill((CSkill*)(new CWarriorSkillNumber7))
+			.addSkill((CSkill*)(new CWarriorSkillNumber8))
+			.addSkill((CSkill*)(new CNormalAttack))
+			.setName("甘宁")
+			.build();
+		team->addHero(temp);
+	}
+	{
+		CSupporterBuilder sbuilder;
+		CHero* temp = sbuilder
+			.setHp(5000)
+			.setAP(200)
+			.addSkill((CSkill*)(new CHealingSkillNumberThree))
+			.addSkill((CSkill*)(new CHealingSkillNumberFour))
+			.setName("鲁肃")
+			.build();
+		team->addHero(temp);
+	}
+	teams.push_back(team);
+}
+
+int CGAME::getRandomTeamNum(int self)
+{
+	int index = -1;
+	while (index < 0 || index == self|| teams[index]->isAllDead()) {
+		index = getRandomIntRange(teams.size() - 1, 0);	
+	}
+	return index;
 }
 
 void CGAME::Init()
 {
-	//创建左边队伍
 	createLeftTeam();
-	//创建右边队伍
+	createMiddleTeam();
 	createRightTeam();
 }
 
@@ -220,36 +156,45 @@ void CGAME::Run()
 	int round = 1;
 	bool leftBattle = true;
 	std::cout << "=======================游戏开始========================\n";
-	std::cout << "=========红方数据==========\n";
-	//打印左边战队血量
-	displayHero(true);
-	std::cout << "=========蓝方数据==========\n";
-	//打印右边战队血量
-	displayHero(false);
+	std::cout << "=========起始数据==========\n";
+	for (const auto& temp : teams) {
+		temp->displayTeamInfo();
+	}
 	system("pause");
 
 	while (1) {
 		std::cout << "=======================第" << round << "回合开始========================\n";
-		//左边战队	
-		choose(true);
-		//右边战队
-		choose(false);
+		int num = 0;
+		for (const auto&team:teams)
+		{
+			if (team->isAllDead()) {
+				continue;
+			}
+			auto enemyTeam = teams[getRandomTeamNum(num)];
+			team->battle(enemyTeam);
+			num++;
+		}
+
 		std::cout << "=======================第" << round << "回合结算========================\n";
-		//打印左边战队血量
-		displayHero(true);
-		//打印右边战队血量
-		displayHero(false);
+		for (const auto& temp : teams) {
+			temp->displayTeamInfo();
+		}
 		std::cout << "=======================第" << round<< "回合结束========================\n";
-
-		if (isAllDead(true)) {
-			std::cout << "=======================游戏结束，蓝方胜利========================\n";
+		int aliveTeam = 0;
+		int index = 0;
+		int aliveIndex = -1;
+		for (const auto& team : teams)
+		{
+			if (!team->isAllDead()) {
+				aliveTeam++;
+				aliveIndex = index;
+			}
+			index++;
+		}
+		if (aliveTeam == 1) {
+			std::cout << "=======================游戏结束，"<< teams[aliveIndex]->getName()<<"胜利========================\n";
 			break;
 		}
-		else if (isAllDead(false)) {
-			std::cout << "=======================游戏结束，红方胜利========================\n";
-			break;
-		}
-
 		round++;
 		system("pause");
 	}
@@ -259,16 +204,7 @@ void CGAME::Run()
 
 void CGAME::End()
 {
-
-	forEach(&leftTeam, [](CHero* temp) {
+	for (const auto& temp : teams) {
 		delete temp;
-		return false;
-		});
-	forEach(&rightTeam, [](CHero* temp) {
-		delete temp;
-		return false;
-		});
-
-	leftTeam.clear();
-	rightTeam.clear();
+	}
 }

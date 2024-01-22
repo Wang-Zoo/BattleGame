@@ -1,16 +1,14 @@
 #pragma once
 #include<vector>
 #include"hero.h"
-
+#include"team.h"
 class CGAME {
 private:
-	std::vector<CHero*> leftTeam;
-	std::vector<CHero*> rightTeam;	
+	std::vector<CTEAM*> teams;
 	void createLeftTeam();
 	void createRightTeam();
-	void choose(bool isLeft);
-	void displayHero(bool isLeft);
-	bool isAllDead(bool isLeft);
+	void createMiddleTeam();
+	int getRandomTeamNum(int self);
 public:
 	void Init();
 	void Run();
