@@ -160,6 +160,7 @@ void CGAME::createFourthTeam()
 			.addSkill((CSkill*)(new CWarriorSkillNumber7))
 			.addSkill((CSkill*)(new CWarriorSkillNumber8))
 			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((CSkill*)(new CSkillSpy))
 			.setName("¡¾¸ßË³¡¿")
 			.build(NO_FOUR_TEAM);
 		team->addHero(temp);
@@ -171,6 +172,7 @@ void CGAME::createFourthTeam()
 			.setAP(200)
 			.addSkill((CSkill*)(new CHealingSkillNumberThree))
 			.addSkill((CSkill*)(new CHealingSkillNumberFour))
+			.addSkill((CSkill*)(new CSkillSpy))
 			.setName("¡¾³Â¹¬¡¿")
 			.build(NO_FOUR_TEAM);
 		team->addHero(temp);
@@ -214,6 +216,7 @@ void CGAME::createFifthTeam()
 			.setAP(200)
 			.addSkill((CSkill*)(new CHealingSkillNumberThree))
 			.addSkill((CSkill*)(new CHealingSkillNumberFour))
+			.addSkill((CSkill*)(new CSkillSpy))
 			.setName("¡¾Ìï·á¡¿")
 			.build(NO_FIVE_TEAM);
 		team->addHero(temp);

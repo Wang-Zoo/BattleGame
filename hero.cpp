@@ -571,10 +571,23 @@ CSkillSpy::CSkillSpy()
 
 void CSkillSpy::Action(CHero* ally, CHero* enemy)
 {
-	
+	if (ally && enemy) {
+		std::cout << ally->GetName() << "发动【心理战】，开始对" << enemy->GetName() << "策反....\n";
+		system("pause");
+		int random = getRandomIntRange(9, 0);
+		if (random < 4) {
+			std::cout << "策反成功!!!!!\n";
+			enemy->setTeamNum(ally->getTeamNum());
+		}
+		else {
+			std::cout << "策反失败!!!!!\n";
+
+		}
+	}
+
 }
 
 const char* CSkillSpy::getName()
 {
-	return "睡服";
+	return "策反";
 }
