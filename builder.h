@@ -13,7 +13,7 @@ public:
 	CBaseBuilder& setHp(int hp);
 	CBaseBuilder& setAP(int ad);
 	CBaseBuilder& addSkill(CSkill *s);
-	CHero* build();
+	CHero* build(int num);
 };
 
 class CWarriorBuilder:public CBaseBuilder

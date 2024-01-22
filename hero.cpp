@@ -64,9 +64,19 @@ int CHero::getBJ()
 	return mAttribute.bj;
 }
 
+int CHero::getTeamNum()
+{
+	return teamNum;
+}
+
 int CHero::getBJValue()
 {
 	return mAttribute.bjValue;
+}
+
+void CHero::setTeamNum(int num)
+{
+	this->teamNum = num;
 }
 
 void CHero::SetAP(int ap)
@@ -552,4 +562,19 @@ void CHealingSkillNumberFour::Action(CHero* ally, CHero* other)
 const char* CHealingSkillNumberFour::getName()
 {
 	return "¡¾ÇÜÄÃÕý¹Ç¡¿";
+}
+
+CSkillSpy::CSkillSpy()
+{
+	cd = 8;
+}
+
+void CSkillSpy::Action(CHero* ally, CHero* enemy)
+{
+	
+}
+
+const char* CSkillSpy::getName()
+{
+	return "Ë¯·þ";
 }

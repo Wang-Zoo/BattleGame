@@ -1,5 +1,7 @@
 #pragma once
-//×´Ì¬
-#define SHIXUE 0//Ê§Ñª
-#define ZHONGDU 1//ÖÐ¶¾
-#define HUIFU 2//»ØÑª
+
+#define NO_ONE_TEAM 0
+#define NO_TWO_TEAM 1
+#define NO_THREE_TEAM 2
+#define NO_FOUR_TEAM 3
+#define NO_FIVE_TEAM 4

@@ -33,23 +33,25 @@ CHero* CTEAM::findWarroier()
 
 void CTEAM::randomDestory(CHero* supporter, CTEAM* enemyTeam)
 {
-	std::cout << supporter->GetName() << "孤军奋战，他准备发动【毁天灭地】来一把梭哈\n";
+	std::cout << supporter->GetName() << "孤军奋战，他准备发动【毁天灭地】来一把绝地求生\n";
 	system("pause");
 
 	bool selfDestory = getRandomIntRange(1, 0);
 	if (selfDestory) {
+		std::cout << supporter->GetName() << "发动成功，"<<enemyTeam->getName()<<"被全军覆没！！！！" << "\n";
 		enemyTeam->allDead(supporter->GetName());
 	}
 	else {
 		supporter->dead();
-		std::cout << supporter->GetName() << "梭哈失败！饮恨而终\n";
+		std::cout << supporter->GetName() << "求生失败！饮恨而终\n";
 	}
 }
 
-CTEAM::CTEAM(int teamColor,const char * name)
+CTEAM::CTEAM(int teamColor,const char * name,int teamNum)
 {
 	this->teamColor = teamColor;
 	this->teamName = name;
+	this->teamNum = teamNum;
 }
 
 CTEAM::~CTEAM()
@@ -84,8 +86,22 @@ CHero* CTEAM::findAlive()
 
 }
 
-void CTEAM::battle(CTEAM* enemyTeam)
+void CTEAM::battle(CGetEnemyInter* inter)
 {
+	auto it = heros.begin();
+	for (;it!=heros.end();) {
+
+		if ((*it)->getTeamNum() != teamNum) {
+			CHero* traitor = (*it);
+			std::cout <<teamName << "清除了叛徒"<<traitor->GetName()<<"\n";
+			inter->clearTraitor(traitor);
+			it = heros.erase(it);
+		}
+		else {
+			it++;
+		}
+	}
+
 	for (const auto&target:heros)
 	{
 		if (!target->isAlive()) {
@@ -93,14 +109,14 @@ void CTEAM::battle(CTEAM* enemyTeam)
 		}
 		if (dynamic_cast<CSupporter*>(target)) {//如果是辅助
 			if (getAliveNum()==1) {//一把梭哈
-				randomDestory(target,enemyTeam);
+				randomDestory(target,inter->getTeam(teamNum));
 			}
 			else {//辅助队友
 				target->Action(findWarroier());
 			}
 		}
 		else {
-			CHero* enemy = enemyTeam->findAlive();
+			CHero* enemy = inter->getEnemy(teamNum);
 			target->Action(enemy);
 		}
 	}
@@ -151,3 +167,4 @@ const char* CTEAM::getName()
 {
 	return teamName;
 }
+

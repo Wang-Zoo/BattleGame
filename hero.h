@@ -23,6 +23,7 @@ protected:
 	int mState = 0;
 	bool alive = true;
 	const char* name = 0;
+	int teamNum = -1;
 public:
 	~CHero();
 	virtual	void Run();
@@ -32,7 +33,9 @@ public:
 	int getAD();
 	int getAP();
 	int getBJ();
+	int getTeamNum();
 	int getBJValue();
+	void setTeamNum(int num);
 	void SetAP(int ad);
 	void SetBJ(int bj);
 	void SetHp(int hp);
@@ -159,3 +162,11 @@ public:
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
+
+class CSkillSpy :CSkill {
+public:
+	CSkillSpy();
+	void Action(CHero* ally, CHero* enemy);
+	const char* getName();
+};
+

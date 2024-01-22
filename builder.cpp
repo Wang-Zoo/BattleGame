@@ -37,8 +37,9 @@ CBaseBuilder& CBaseBuilder::setHp(int hp)
 	return *this;
 }
 
-CHero* CBaseBuilder::build()
+CHero* CBaseBuilder::build(int num)
 {
+	target->setTeamNum(num);
 	return target;
 }
 
