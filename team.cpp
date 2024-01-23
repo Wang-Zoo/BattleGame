@@ -1,6 +1,7 @@
 #include"team.h"
 #include"tool.h"
 #include"supporter.h"
+#include "warrior.h"
 #include"iostream"
 #include"Windows.h"
 
@@ -108,8 +109,16 @@ void CTEAM::battle(CGetEnemyInter* inter)
 			continue;
 		}
 		if (dynamic_cast<CSupporter*>(target)) {//如果是辅助
-			if (getAliveNum()==1) {//一把梭哈
-				randomDestory(target,inter->getTeam(teamNum));
+			if (getAliveNum()==1) {
+				if (getPercent(6)) {
+					CHero* targetW = inter->findEnemyWarrior(teamNum);
+					if (targetW) {
+						target->Action(targetW);
+					}
+				}
+				else {
+					randomDestory(target, inter->getTeam(teamNum));
+				}
 			}
 			else {//辅助队友
 				target->Action(findWarroier());
@@ -166,5 +175,38 @@ void CTEAM::displayTeamInfo()
 const char* CTEAM::getName()
 {
 	return teamName;
+}
+
+bool CTEAM::onlySupproterAlive()
+{
+	if(getAliveNum()==1){
+		bool isSupproter = false;
+		for (const auto& hero :heros)
+		{
+			if (dynamic_cast<CSupporter*>(hero)&&hero->isAlive()) {
+				isSupproter = true;
+				break;
+			}
+		}
+		return isSupproter;
+	}
+	return false;
+}
+
+CHero* CTEAM::findTargetWarroier()
+{
+	for (const auto& hero:heros)
+	{
+		if (dynamic_cast<CWarrior*>(hero)&&hero->isAlive()) {
+			return hero;
+		}
+	}
+
+	return nullptr;
+}
+
+int CTEAM::getTeamNum()
+{
+	return teamNum;
 }
 

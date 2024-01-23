@@ -11,5 +11,6 @@ void forEach(std::vector<CHero*>* origins, std::vector<CHero*>* leftTeam,std::ve
 void randomInit();
 int getRandomInt();
 int getRandomIntRange(int max, int min);
+bool getPercent(int target);
 
 

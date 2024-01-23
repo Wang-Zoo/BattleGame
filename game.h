@@ -18,4 +18,5 @@ public:
 	CHero *getEnemy(int selfTeamNum);
 	CTEAM* getTeam(int selfTeamNum);
 	void clearTraitor(CHero* traitor);
+	CHero* findEnemyWarrior(int teamNum);
 };

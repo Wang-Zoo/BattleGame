@@ -42,4 +42,7 @@ int getRandomIntRange(int max, int min)
 	return rand() % (max - min + 1) + min;
 }
 
+bool getPercent(int target) {
+	return getRandomIntRange(9, 0)<=target;
+}
 

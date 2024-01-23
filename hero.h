@@ -61,6 +61,8 @@ protected:
 	int ccd;
 	void calculate(int tempGj, int gj, CHero* enemy);
 public:
+	CSkill();
+	~CSkill();
 	int getCCD();
 	void resetCD();
 	virtual void Action(CHero* ally, CHero* enemy);
@@ -68,35 +70,35 @@ public:
 	void changeCD();
 };
 
-class CNormalAttack : CSkill {
+class CNormalAttack :public CSkill {
 public:
 	CNormalAttack();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 //赵云技能
-class CWarriorSkillNumber1 : CSkill {
+class CWarriorSkillNumber1 : public CSkill {
 public:
 	CWarriorSkillNumber1();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 
-class CWarriorSkillNumber2 : CSkill {
+class CWarriorSkillNumber2 : public CSkill {
 public:
 	CWarriorSkillNumber2();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 //马超技能
-class CWarriorSkillNumber3 : CSkill {
+class CWarriorSkillNumber3 : public CSkill {
 public:
 	CWarriorSkillNumber3();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 
-class CWarriorSkillNumber4 : CSkill {
+class CWarriorSkillNumber4 : public CSkill {
 public:
 	CWarriorSkillNumber4();
 	void Action(CHero* ally, CHero* enemy);
@@ -104,14 +106,14 @@ public:
 };
 
 //张辽技能
-class CWarriorSkillNumber5 : CSkill {
+class CWarriorSkillNumber5 : public CSkill {
 public:
 	CWarriorSkillNumber5();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 
-class CWarriorSkillNumber6 : CSkill {
+class CWarriorSkillNumber6 : public CSkill {
 public:
 	CWarriorSkillNumber6();
 	void Action(CHero* ally, CHero* enemy);
@@ -119,14 +121,14 @@ public:
 };
 
 //典韦技能
-class CWarriorSkillNumber7 : CSkill {
+class CWarriorSkillNumber7 : public CSkill {
 public:
 	CWarriorSkillNumber7();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 
-class CWarriorSkillNumber8 : CSkill {
+class CWarriorSkillNumber8 : public CSkill {
 public:
 	CWarriorSkillNumber8();
 	void Action(CHero* ally, CHero* enemy);
@@ -134,14 +136,14 @@ public:
 };
 
 //庞统技能
-class CHealingSkillNumberOne :CSkill {
+class CHealingSkillNumberOne :public CSkill {
 public:
 	CHealingSkillNumberOne();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 
-class CHealingSkillNumberTwo :CSkill {
+class CHealingSkillNumberTwo :public CSkill {
 public:
 	CHealingSkillNumberTwo();
 	void Action(CHero* ally, CHero* enemy);
@@ -149,21 +151,21 @@ public:
 };
 
 //贾诩技能
-class CHealingSkillNumberThree :CSkill {
+class CHealingSkillNumberThree :public CSkill {
 public:
 	CHealingSkillNumberThree();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 
-class CHealingSkillNumberFour :CSkill {
+class CHealingSkillNumberFour :public CSkill {
 public:
 	CHealingSkillNumberFour();
 	void Action(CHero* ally, CHero* enemy);
 	const char* getName();
 };
 
-class CSkillSpy :CSkill {
+class  CSkillSpy :public CSkill {
 public:
 	CSkillSpy();
 	void Action(CHero* ally, CHero* enemy);

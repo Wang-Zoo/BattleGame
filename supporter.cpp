@@ -11,6 +11,19 @@ void CSupporter::Run() {
 
 void CSupporter::Action(CHero* enemy)
 {
-	CHero::Action(enemy);
+	if (enemy->getTeamNum() == teamNum) {
+		CHero::Action(enemy);
+	}
+	else {
+		//È°½µ¼¼ÄÜ
+		for (const auto& temp:skills)
+		{
+			CSkillSpy*  tempSkill= dynamic_cast<CSkillSpy*>(temp);
+			if (tempSkill) {
+				temp->Action(this,enemy);
+				break;
+			}
+		}
+	}
 }
 

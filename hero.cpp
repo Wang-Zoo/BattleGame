@@ -9,6 +9,7 @@ CHero::CHero()
 
 CHero::~CHero()
 {
+	std::cout << "Hero析构\n";
 	auto it = skills.begin();
 	for (; it != skills.end(); it++) {
 		delete (*it);
@@ -208,6 +209,15 @@ void CSkill::calculate(int tempGj, int gj,CHero *enemy)
 			std::cout << "但由于" << enemy->GetName() << "有护盾，抵消了" << gj - tempGj << "点伤害\n";
 		}
 	}
+}
+
+CSkill::CSkill()
+{
+}
+
+CSkill::~CSkill()
+{
+	std::cout << "技能析构\n";
 }
 
 int CSkill::getCCD()
@@ -571,7 +581,7 @@ CSkillSpy::CSkillSpy()
 
 void CSkillSpy::Action(CHero* ally, CHero* enemy)
 {
-	if (ally && enemy) {
+	if (ally && enemy &&ally->getTeamNum()!=enemy->getTeamNum()) {
 		std::cout << ally->GetName() << "发动【心理战】，开始对" << enemy->GetName() << "策反....\n";
 		system("pause");
 		int random = getRandomIntRange(9, 0);

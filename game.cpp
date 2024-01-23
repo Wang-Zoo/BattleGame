@@ -11,12 +11,12 @@ void CGAME::createLeftTeam()
 	{
 		CWarriorBuilder wbuilder;
 		CHero* temp = wbuilder
-			.setHp(3000)
+			.setHp(1000)
 			.setAD(300)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber1))
-			.addSkill((CSkill*)(new CWarriorSkillNumber2))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill(new CWarriorSkillNumber1)
+			.addSkill(new CWarriorSkillNumber2)
+			.addSkill(new CNormalAttack)
 			.setName("¡¾ÕÔÔÆ¡¿")
 			.build(NO_ONE_TEAM);
 		team->addHero(temp);
@@ -24,12 +24,12 @@ void CGAME::createLeftTeam()
 	{
 		CWarriorBuilder wbuilder;
 		CHero* temp = wbuilder
-			.setHp(3000)
+			.setHp(1000)
 			.setAD(300)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber3))
-			.addSkill((CSkill*)(new CWarriorSkillNumber4))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill(new CWarriorSkillNumber3)
+			.addSkill(new CWarriorSkillNumber4)
+			.addSkill(new CNormalAttack)
 			.setName("¡¾Âí³¬¡¿")
 			.build(NO_ONE_TEAM);
 		team->addHero(temp);
@@ -39,8 +39,9 @@ void CGAME::createLeftTeam()
 		CHero* temp = sbuilder
 			.setHp(4000)
 			.setAP(300)
-			.addSkill((CSkill*)(new CHealingSkillNumberOne))
-			.addSkill((CSkill*)(new CHealingSkillNumberTwo))
+			.addSkill(new CHealingSkillNumberOne)
+			.addSkill(new CHealingSkillNumberTwo)
+			.addSkill(new CSkillSpy)
 			.setName("¡¾ÅÓÍ³¡¿")
 			.build(NO_ONE_TEAM);
 
@@ -58,9 +59,9 @@ void CGAME::createRightTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber5))
-			.addSkill((CSkill*)(new CWarriorSkillNumber6))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((new CWarriorSkillNumber5))
+			.addSkill((new CWarriorSkillNumber6))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾ÕÅÁÉ¡¿")
 			.build(NO_THREE_TEAM);
 		team->addHero(temp);
@@ -71,9 +72,9 @@ void CGAME::createRightTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber7))
-			.addSkill((CSkill*)(new CWarriorSkillNumber8))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((new CWarriorSkillNumber7))
+			.addSkill((new CWarriorSkillNumber8))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾µäÎ¤¡¿")
 			.build(NO_THREE_TEAM);
 		team->addHero(temp);
@@ -83,8 +84,9 @@ void CGAME::createRightTeam()
 		CHero* temp = sbuilder
 			.setHp(5000)
 			.setAP(200)
-			.addSkill((CSkill*)(new CHealingSkillNumberThree))
-			.addSkill((CSkill*)(new CHealingSkillNumberFour))
+			.addSkill((new CHealingSkillNumberThree))
+			.addSkill((new CHealingSkillNumberFour))
+			.addSkill((new CSkillSpy))
 			.setName("¡¾¼ÖÚ¼¡¿")
 			.build(NO_THREE_TEAM);
 		team->addHero(temp);
@@ -101,9 +103,9 @@ void CGAME::createMiddleTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber5))
-			.addSkill((CSkill*)(new CWarriorSkillNumber6))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((new CWarriorSkillNumber5))
+			.addSkill((new CWarriorSkillNumber6))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾Ëï²ß¡¿")
 			.build(NO_TWO_TEAM);
 		team->addHero(temp);
@@ -114,9 +116,9 @@ void CGAME::createMiddleTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber7))
-			.addSkill((CSkill*)(new CWarriorSkillNumber8))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((new CWarriorSkillNumber7))
+			.addSkill((new CWarriorSkillNumber8))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾¸ÊÄþ¡¿")
 			.build(NO_TWO_TEAM);
 		team->addHero(temp);
@@ -126,8 +128,9 @@ void CGAME::createMiddleTeam()
 		CHero* temp = sbuilder
 			.setHp(5000)
 			.setAP(200)
-			.addSkill((CSkill*)(new CHealingSkillNumberThree))
-			.addSkill((CSkill*)(new CHealingSkillNumberFour))
+			.addSkill((new CHealingSkillNumberThree))
+			.addSkill((new CHealingSkillNumberFour))
+			.addSkill((new CSkillSpy))
 			.setName("¡¾Â³Ëà¡¿")
 			.build(NO_TWO_TEAM);
 		team->addHero(temp);
@@ -144,9 +147,9 @@ void CGAME::createFourthTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber5))
-			.addSkill((CSkill*)(new CWarriorSkillNumber6))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((new CWarriorSkillNumber5))
+			.addSkill((new CWarriorSkillNumber6))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾ÂÀ²¼¡¿")
 			.build(NO_FOUR_TEAM);
 		team->addHero(temp);
@@ -157,10 +160,9 @@ void CGAME::createFourthTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber7))
-			.addSkill((CSkill*)(new CWarriorSkillNumber8))
-			.addSkill((CSkill*)(new CNormalAttack))
-			.addSkill((CSkill*)(new CSkillSpy))
+			.addSkill((new CWarriorSkillNumber7))
+			.addSkill((new CWarriorSkillNumber8))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾¸ßË³¡¿")
 			.build(NO_FOUR_TEAM);
 		team->addHero(temp);
@@ -170,9 +172,9 @@ void CGAME::createFourthTeam()
 		CHero* temp = sbuilder
 			.setHp(5000)
 			.setAP(200)
-			.addSkill((CSkill*)(new CHealingSkillNumberThree))
-			.addSkill((CSkill*)(new CHealingSkillNumberFour))
-			.addSkill((CSkill*)(new CSkillSpy))
+			.addSkill((new CHealingSkillNumberThree))
+			.addSkill((new CHealingSkillNumberFour))
+			.addSkill((new CSkillSpy))
 			.setName("¡¾³Â¹¬¡¿")
 			.build(NO_FOUR_TEAM);
 		team->addHero(temp);
@@ -189,9 +191,9 @@ void CGAME::createFifthTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber5))
-			.addSkill((CSkill*)(new CWarriorSkillNumber6))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((new CWarriorSkillNumber5))
+			.addSkill((new CWarriorSkillNumber6))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾ÎÄ³ó¡¿")
 			.build(NO_FIVE_TEAM);
 		team->addHero(temp);
@@ -202,9 +204,9 @@ void CGAME::createFifthTeam()
 			.setHp(1000)
 			.setAD(200)
 			.setBJ(30)
-			.addSkill((CSkill*)(new CWarriorSkillNumber7))
-			.addSkill((CSkill*)(new CWarriorSkillNumber8))
-			.addSkill((CSkill*)(new CNormalAttack))
+			.addSkill((new CWarriorSkillNumber7))
+			.addSkill((new CWarriorSkillNumber8))
+			.addSkill((new CNormalAttack))
 			.setName("¡¾ÑÕÁ¼¡¿")
 			.build(NO_FIVE_TEAM);
 		team->addHero(temp);
@@ -214,9 +216,9 @@ void CGAME::createFifthTeam()
 		CHero* temp = sbuilder
 			.setHp(5000)
 			.setAP(200)
-			.addSkill((CSkill*)(new CHealingSkillNumberThree))
-			.addSkill((CSkill*)(new CHealingSkillNumberFour))
-			.addSkill((CSkill*)(new CSkillSpy))
+			.addSkill((new CHealingSkillNumberThree))
+			.addSkill((new CHealingSkillNumberFour))
+			.addSkill((new CSkillSpy))
 			.setName("¡¾Ìï·á¡¿")
 			.build(NO_FIVE_TEAM);
 		team->addHero(temp);
@@ -315,4 +317,21 @@ void CGAME::clearTraitor(CHero* traitor)
 	teams[traitor->getTeamNum()]->addHero(traitor);
 	std::cout << traitor->GetName() << "ÖØÐÂ¼ÓÈëÁË" << name << "\n";
 	
+}
+
+CHero* CGAME::findEnemyWarrior(int teamNum)
+{
+
+	CHero* temp = 0;
+	int count = 0;
+	while (!temp||count<5) {
+		auto tempTeam = teams[getRandomIntRange(teams.size() - 1, 0)];
+		if (tempTeam->getTeamNum() == teamNum) {
+			continue;
+		}
+		temp = tempTeam->findTargetWarroier();
+		count++;
+	}
+
+	return temp;
 }

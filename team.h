@@ -23,6 +23,9 @@ public:
 	bool isAllDead();
 	void displayTeamInfo();
 	const char* getName();
+	bool onlySupproterAlive();
+	CHero* findTargetWarroier();
+	int getTeamNum();
 };
 
 class CGetEnemyInter {
@@ -30,4 +33,5 @@ public:
 	virtual CHero* getEnemy(int selfTeamNum) = 0;
 	virtual CTEAM* getTeam(int selfTeamNum) = 0;
 	virtual void clearTraitor(CHero* traitor) = 0;
+	virtual CHero* findEnemyWarrior(int teamNum) = 0;
 };
